@@ -1,0 +1,4 @@
+# 讓GIT忽略此檔案，因為他們是套件，做版本管理也沒意義
+node_modules/
+ngrok.exe
+.env
