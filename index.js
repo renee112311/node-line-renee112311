@@ -20,7 +20,7 @@ const bot = linebot({
 bot.on('follow', async (event) => {
   let msg = ''
   try {
-    msg = '您好，歡迎使用今明 36 小時天氣預報Line機器人，以下為使用說明：輸入「!縣市名稱」來查詢該縣市36小時內天氣預報，範例：!臺北市'
+    msg = '您好，歡迎使用今明 36 小時天氣預報Line機器人，以下為使用說明：\n輸入「!縣市名稱」來查詢該縣市36小時內天氣預報，不可含空格，驚嘆號為半形。範例：!臺北市'
   } catch (error) {
     msg = '發生錯誤'
   }
@@ -41,23 +41,23 @@ bot.on('message', async (event) => {
     const RES = data.records.location[id]
 
     if (txttrim.startsWith('!')) {
-      msg = `查詢${RES.locationName}的天氣預報：\n`
-      for (let i = 0; i < RES.weatherElement[0].time.length; i++) {
-        msg += `
-        ${RES.weatherElement[0].time[i].startTime}至${RES.weatherElement[0].time[i].endTime}\n
-        天氣現象：${RES.weatherElement[0].time[i].parameter.parameterName}\n
-        降雨機率：${RES.weatherElement[1].time[i].parameter.parameterName}%\n
-        最低溫：${RES.weatherElement[2].time[i].parameter.parameterName}℃\n
-        最高溫：${RES.weatherElement[4].time[i].parameter.parameterName}℃\n
-        舒適度：${RES.weatherElement[3].time[i].parameter.parameterName}\n
-        `
-      }
-    } else {
       if (id === -1) {
         msg = '查無此縣市'
       } else {
-        msg = '輸入錯誤'
+        msg = `查詢${RES.locationName}的天氣預報：\n`
+        for (let i = 0; i < RES.weatherElement[0].time.length; i++) {
+          msg += `
+          ${RES.weatherElement[0].time[i].startTime}至${RES.weatherElement[0].time[i].endTime}\n
+          天氣現象：${RES.weatherElement[0].time[i].parameter.parameterName}\n
+          降雨機率：${RES.weatherElement[1].time[i].parameter.parameterName}%\n
+          最低溫：${RES.weatherElement[2].time[i].parameter.parameterName}℃\n
+          最高溫：${RES.weatherElement[4].time[i].parameter.parameterName}℃\n
+          舒適度：${RES.weatherElement[3].time[i].parameter.parameterName}\n
+          `
+        }
       }
+    } else {
+      msg = '輸入錯誤'
     }
   } catch (error) {
     msg = '發生錯誤'
