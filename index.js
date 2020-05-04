@@ -29,15 +29,14 @@ bot.on('follow', async (event) => {
 // 當收到訊息時
 bot.on('message', async (event) => {
   let msg = ''
-  let id = 0
+  let id = -1
   const txttrim = event.message.text.trim()
   try {
     const data = await rp({ uri: 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-66420B34-870E-4663-8957-5FD6335D5647&format=JSON', json: true })
     for (const locationid in data.records.location) {
-      if (txttrim === `!${data.records.location[locationid].locationName}`) {
+      if (txttrim === '!' + data.records.location[locationid].locationName) {
         id = locationid
       }
-      break
     }
     const RES = data.records.location[id]
 
@@ -54,7 +53,11 @@ bot.on('message', async (event) => {
         `
       }
     } else {
-      msg = '輸入錯誤'
+      if (id === -1) {
+        msg = '查無此縣市'
+      } else {
+        msg = '輸入錯誤'
+      }
     }
   } catch (error) {
     msg = '發生錯誤'
