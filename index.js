@@ -30,10 +30,10 @@ bot.on('message', async (event) => {
   let msg = ''
   let id = -1
   let txttrim = event.message.text.trim()
-  String.full2half = function () {
-    var temp = ''
-    for (var i = 0; i < this.toString().length; i++) {
-      var charCode = this.toString().charCodeAt(i)
+  var full2half = (str) => {
+    let temp = ''
+    for (var i = 0; i < str.toString().length; i++) {
+      var charCode = str.toString().charCodeAt(i)
       if (charCode >= 65281 && charCode <= 65374) {
         charCode -= 65248
       } else if (charCode === 12288) { // 全形轉半形
@@ -43,7 +43,7 @@ bot.on('message', async (event) => {
     }
     return temp
   }
-  txttrim = txttrim.full2half()
+  txttrim = full2half(txttrim)
   try {
     const data = await rp({ uri: 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-66420B34-870E-4663-8957-5FD6335D5647&format=JSON', json: true })
     for (const locationid in data.records.location) {
@@ -70,7 +70,7 @@ ${RES.weatherElement[0].time[i].startTime}至${RES.weatherElement[0].time[i].end
         }
       }
     } else {
-      msg = '請輸入「!縣市名稱」'
+      msg = '不好意思，我看不懂>< 要查詢天氣的話請輸入「!縣市名稱」唷'
     }
   } catch (error) {
     msg = '發生錯誤'
