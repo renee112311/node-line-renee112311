@@ -29,17 +29,31 @@ bot.on('follow', async (event) => {
 bot.on('message', async (event) => {
   let msg = ''
   let id = -1
-  const txttrim = event.message.text.trim()
+  let txttrim = event.message.text.trim()
+  String.full2half = function () {
+    var temp = ''
+    for (var i = 0; i < this.toString().length; i++) {
+      var charCode = this.toString().charCodeAt(i)
+      if (charCode >= 65281 && charCode <= 65374) {
+        charCode -= 65248
+      } else if (charCode === 12288) { // 全形轉半形
+        charCode = 32
+      }
+      temp = temp + String.fromCharCode(charCode)
+    }
+    return temp
+  }
+  txttrim = txttrim.full2half()
   try {
     const data = await rp({ uri: 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-66420B34-870E-4663-8957-5FD6335D5647&format=JSON', json: true })
     for (const locationid in data.records.location) {
-      if (txttrim === '!' + data.records.location[locationid].locationName || txttrim === '！' + data.records.location[locationid].locationName) {
+      if (txttrim === '!' + data.records.location[locationid].locationName) {
         id = locationid
       }
     }
     const RES = data.records.location[id]
 
-    if (txttrim.startsWith('!' || '！')) {
+    if (txttrim.startsWith('!')) {
       if (id === -1) {
         msg = '查無此縣市'
       } else {
