@@ -30,6 +30,7 @@ bot.on('message', async (event) => {
   let msg = ''
   let id = -1
   let txttrim = event.message.text.trim()
+
   var full2half = (str) => {
     let temp = ''
     for (var i = 0; i < str.toString().length; i++) {
@@ -43,7 +44,13 @@ bot.on('message', async (event) => {
     }
     return temp
   }
+
   txttrim = full2half(txttrim)
+
+  if (txttrim === '!台北市') {
+    txttrim = '!臺北市'
+  }
+
   try {
     const data = await rp({ uri: 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-C0032-001?Authorization=CWB-66420B34-870E-4663-8957-5FD6335D5647&format=JSON', json: true })
     for (const locationid in data.records.location) {
