@@ -31,7 +31,7 @@ bot.on('message', async (event) => {
   let id = -1
   let txttrim = event.message.text.trim()
 
-  const full2half = (str) => {
+  let full2half = (str) => {
     let temp = ''
     for (const i = 0; i < str.toString().length; i++) {
       let charCode = str.toString().charCodeAt(i)
