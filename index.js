@@ -33,7 +33,7 @@ bot.on('message', async (event) => {
 
   let full2half = (str) => {
     let temp = ''
-    for (const i = 0; i < str.toString().length; i++) {
+    for (let i = 0; i < str.toString().length; i++) {
       let charCode = str.toString().charCodeAt(i)
       if (charCode >= 65281 && charCode <= 65374) {
         charCode -= 65248
