@@ -31,10 +31,10 @@ bot.on('message', async (event) => {
   let id = -1
   let txttrim = event.message.text.trim()
 
-  var full2half = (str) => {
+  const full2half = (str) => {
     let temp = ''
-    for (var i = 0; i < str.toString().length; i++) {
-      var charCode = str.toString().charCodeAt(i)
+    for (const i = 0; i < str.toString().length; i++) {
+      let charCode = str.toString().charCodeAt(i)
       if (charCode >= 65281 && charCode <= 65374) {
         charCode -= 65248
       } else if (charCode === 12288) { // 全形轉半形
